@@ -5,13 +5,18 @@
  */
 package controllers;
 
+import entidades.Post;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.PostDAO;
 
 /**
  *
@@ -20,69 +25,80 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "post", urlPatterns = {"/post"})
 public class PostController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PostController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PostController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String busca = request.getParameter("busca");
+        
+        PostDAO pdao = new PostDAO();
+        List<Post> posts = new ArrayList<Post>();
+        
+        posts = null;
+        posts = pdao.pesquisar(busca);
+        
+        if (posts != null){
+            request.setAttribute("posts", posts);
+            RequestDispatcher view = request.getRequestDispatcher("post.jsp");
+            view.forward(request, response);
+        }else{
+            request.setAttribute("retornoConsulta", "Nenhum item foi encontrado");
+            RequestDispatcher view = request.getRequestDispatcher("view/post.jsp");
+            view.forward(request, response);
+        }
+        
+        
+        
+        
+        
+        
+        
+//  public void doGet (HttpServletRequest req, HttpServletResponse res) throws IOException {
+//      res.setContentType("text/html; charset=UTF-8");
+//      PrintWriter writer = res.getWriter();
+//      String busca = req.getParameter("nome");
+//      try {
+//          Connection c = DriverManager.getConnection("jdbc:mysql://abobrinha.com/jdbc_01", "root", "");
+//          PreparedStatement ps = c.prepareStatement("SELECT * FROM cidades WHERE nome like ?");
+//          ps.setString(1, busca + "%");
+//          ResultSet rs = ps.executeQuery();
+//          while (rs.next())
+//              writer.println("<li>" + rs.getString("nome") + "</li>");
+//              c.close();
+//          } catch (SQLException e) {
+//              e.printStackTrace();
+//          }
+//      }
+        
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        Post post = new Post();
+        PostDAO pdao = new PostDAO();
+        Long i = new Long(1);
+        
+        post.setTitulo(request.getParameter("titulo"));
+        post.setSubtitulo(request.getParameter("subtitulo"));
+        post.setTexto(request.getParameter("texto"));
+        post.setUsuarioID(i);
+        
+        if (pdao.salvar(post)) {
+            request.setAttribute("retornoSalvar", "Post salvo com sucesso");
+            response.sendRedirect("post.jsp");
+        }else{
+            request.setAttribute("retornoSalvar", "O post não foi salvo");
+            RequestDispatcher view = request.getRequestDispatcher("view/post.jsp");
+            view.forward(request, response);
+        }
+        
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
