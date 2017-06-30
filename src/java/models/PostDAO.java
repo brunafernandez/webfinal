@@ -21,7 +21,7 @@ import entidades.Post;
  */
 public class PostDAO {
 
-    public void salvar(Post post) {
+    public boolean salvar(Post post) {
 
 
         String sql = "INSERT INTO post(titulo,subtitulo,texto,usuarioID)" + " VALUES(?,?,?,?)";
@@ -47,11 +47,11 @@ public class PostDAO {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         } finally {
             //Fecha as conexões
             try {
                 if (pstm != null) {
-
                     pstm.close();
                 }
                 if (conn != null) {
@@ -59,8 +59,10 @@ public class PostDAO {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
     public void removerPorID(Long id) {
