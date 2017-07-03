@@ -47,29 +47,6 @@ public class PostController extends HttpServlet {
             view.forward(request, response);
         }
         
-        
-        
-        
-        
-        
-        
-//  public void doGet (HttpServletRequest req, HttpServletResponse res) throws IOException {
-//      res.setContentType("text/html; charset=UTF-8");
-//      PrintWriter writer = res.getWriter();
-//      String busca = req.getParameter("nome");
-//      try {
-//          Connection c = DriverManager.getConnection("jdbc:mysql://abobrinha.com/jdbc_01", "root", "");
-//          PreparedStatement ps = c.prepareStatement("SELECT * FROM cidades WHERE nome like ?");
-//          ps.setString(1, busca + "%");
-//          ResultSet rs = ps.executeQuery();
-//          while (rs.next())
-//              writer.println("<li>" + rs.getString("nome") + "</li>");
-//              c.close();
-//          } catch (SQLException e) {
-//              e.printStackTrace();
-//          }
-//      }
-        
     }
 
     @Override
