@@ -29,24 +29,6 @@ public class PostController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String busca = request.getParameter("busca");
-        
-        PostDAO pdao = new PostDAO();
-        List<Post> posts = new ArrayList<Post>();
-        
-        posts = null;
-        posts = pdao.pesquisar(busca);
-        
-        if (posts != null){
-            request.setAttribute("posts", posts);
-            RequestDispatcher view = request.getRequestDispatcher("post.jsp");
-            view.forward(request, response);
-        }else{
-            request.setAttribute("retornoConsulta", "Nenhum item foi encontrado");
-            RequestDispatcher view = request.getRequestDispatcher("view/post.jsp");
-            view.forward(request, response);
-        }
-        
     }
 
     @Override

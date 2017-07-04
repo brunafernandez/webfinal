@@ -12,7 +12,7 @@ import models.PostDAO;
  *
  * @author bruuh
  */
-public class ControllerPostTeste {
+public class TesteBanco {
     
     public static void main(String[] args) {
         
