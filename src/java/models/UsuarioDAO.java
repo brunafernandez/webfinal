@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class UsuarioDAO {
 
-    public void salvar(Usuario usu) {
+    public boolean salvar(Usuario usu) {
 
-        String sql = "INSERT INTO usuario(nome, logradouro, numero, complemento, bairro, cep, cidade, uf, pais, email, senha)" + " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO usuario(nome, logradouro, numero, complemento, bairro, cep, cidade, uf, email, senha)" + " VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -41,15 +41,15 @@ public class UsuarioDAO {
             pstm.setString(6, usu.getCep());
             pstm.setString(7, usu.getCidade());
             pstm.setString(8, usu.getUf());
-            pstm.setString(9, usu.getPais());
-            pstm.setString(10, usu.getEmail());
-            pstm.setString(11, usu.getSenha());
+            pstm.setString(9, usu.getEmail());
+            pstm.setString(10, usu.getSenha());
 
             //Executa a inserção dos dados
             pstm.execute();
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         } finally {
             //Fecha as conexões
             try {
@@ -62,8 +62,10 @@ public class UsuarioDAO {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
     public void removerPorID(Long id) {
@@ -98,7 +100,7 @@ public class UsuarioDAO {
 
     public void alterar(Usuario usu) {
 
-        String sql = "UPDATE usuario SET nome = ?, logradouro = ?, numero = ?, complemento = ?, bairro = ?, cep = ?, cidade = ?, uf = ?, pais = ?, email = ?, senha = ?"
+        String sql = "UPDATE usuario SET nome = ?, logradouro = ?, numero = ?, complemento = ?, bairro = ?, cep = ?, cidade = ?, uf = ?, email = ?, senha = ?"
                 + " WHERE id = ?";
 
         Connection conn = null;
@@ -120,11 +122,10 @@ public class UsuarioDAO {
             pstm.setString(6, usu.getCep());
             pstm.setString(7, usu.getCidade());
             pstm.setString(8, usu.getUf());
-            pstm.setString(9, usu.getPais());
-            pstm.setString(10, usu.getEmail());
-            pstm.setString(11, usu.getSenha());
+            pstm.setString(9, usu.getEmail());
+            pstm.setString(10, usu.getSenha());
 
-            pstm.setLong(12, usu.getId());
+            pstm.setLong(11, usu.getId());
 
             //Executa a sql para inserção dos dados
             pstm.execute();
@@ -177,7 +178,6 @@ public class UsuarioDAO {
                 usu.setCep(rset.getString("cep"));
                 usu.setCidade(rset.getString("cidade"));
                 usu.setUf(rset.getString("uf"));
-                usu.setPais(rset.getString("pais"));
                 usu.setEmail(rset.getString("email"));
                 usu.setSenha(rset.getString("senha"));
 
@@ -238,7 +238,6 @@ public class UsuarioDAO {
                 usu.setCep(rset.getString("cep"));
                 usu.setCidade(rset.getString("cidade"));
                 usu.setUf(rset.getString("uf"));
-                usu.setPais(rset.getString("pais"));
                 usu.setEmail(rset.getString("email"));
                 usu.setSenha(rset.getString("senha"));
 
@@ -293,7 +292,6 @@ public class UsuarioDAO {
             usu.setCep(rset.getString("cep"));
             usu.setCidade(rset.getString("cidade"));
             usu.setUf(rset.getString("uf"));
-            usu.setPais(rset.getString("pais"));
             usu.setEmail(rset.getString("email"));
             usu.setSenha(rset.getString("senha"));
 

@@ -31,7 +31,6 @@ public class Usuario {
     private String cep;
     private String cidade;
     private String uf;
-    private String pais;
     
     public Usuario() {
         
@@ -43,7 +42,7 @@ public class Usuario {
         this.senha = senha;
     }
     
-    public Usuario (String nome, String email, String senha, String logradouro, String numero, String complemento,String bairro, String cep, String cidade, String uf, String pais){
+    public Usuario (String nome, String email, String senha, String logradouro, String numero, String complemento,String bairro, String cep, String cidade, String uf){
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -54,7 +53,6 @@ public class Usuario {
         this.cep = cep;
         this.cidade = cidade;
         this.uf = uf;
-        this.pais = pais;
     }
 
     /**
@@ -209,20 +207,6 @@ public class Usuario {
      */
     public void setUf(String uf) {
         this.uf = uf;
-    }
-
-    /**
-     * @return the pais
-     */
-    public String getPais() {
-        return pais;
-    }
-
-    /**
-     * @param pais the pais to set
-     */
-    public void setPais(String pais) {
-        this.pais = pais;
     }
     
     @Override

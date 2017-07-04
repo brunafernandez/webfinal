@@ -63,11 +63,11 @@ public class PostController extends HttpServlet {
         post.setUsuarioID(i);
         
         if (pdao.salvar(post)) {
-            request.setAttribute("retornoSalvar", "Post salvo com sucesso");
-            response.sendRedirect("post.jsp");
+            request.setAttribute("mensagem", "Post salvo com sucesso");
+            response.sendRedirect("/webfinal/index.jsp");
         }else{
-            request.setAttribute("retornoSalvar", "O post não foi salvo");
-            RequestDispatcher view = request.getRequestDispatcher("view/post.jsp");
+            request.setAttribute("mensagem", "O post não foi salvo");
+            RequestDispatcher view = request.getRequestDispatcher("/webfinal/post.jsp");
             view.forward(request, response);
         }
         
